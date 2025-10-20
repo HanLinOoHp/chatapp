@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Home / Settings</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: #f9f9f9;
+    }
+
+    /* .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header h2 {
+      margin: 0;
+      font-size: 18px;
+    } */
+
+    .edit-btn {
+      background: none;
+      border: none;
+      color: #007bff;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .profile {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 20px auto 10px auto;
+      border: 3px solid #ccc;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .username {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 5px 0;
+    }
+
+    .phone {
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .menu {
+      list-style: none;
+      padding: 0;
+      margin: 0 auto;
+      max-width: 300px;
+      text-align: left;
+    }
+
+    .menu li {
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .menu li:hover {
+      background: #f1f1f1;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      background: #fff;
+      height: 50px;
+    }
+    .footer a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+    .footer a.active {
+      color: #007bff;
+    }
+
+    .logout-btn {
+      width: 100%;
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s;
+    }
+
+    .logout-btn:hover {
+      background: #c82333;
+    }
+
+    .back-btn {
+      position: absolute;
+      left: 1rem;
+      font-size: 22px;
+      color: #333;
+      text-decoration: none;
+    }
+    .back-btn:hover {
+      color: #007bff;
+    }
+
+    .lang-switcher {
+      position: fixed;
+      top: 10px;
+      right: 20px;
+      font-size: 14px;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 4px 8px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    .lang-switcher a {
+      text-decoration: none;
+      color: #007bff;
+      margin: 0 4px;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <a href="/usersettings" class="back-btn">&#8592;</a>
+  </div>
+
+  <div class="footer">
+    <a href="/users">Chats</a>
+    <a href="/setting" class="active">Home</a>
+  </div>
+</body>
+</html>

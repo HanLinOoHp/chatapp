@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="#{blocked.title}">Blocked Users</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+      position: relative;
+    }
+
+    .back-btn {
+      font-size: 22px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .lang-switcher {
+      position: fixed;
+      top: 10px;
+      right: 20px;
+      font-size: 14px;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 4px 8px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    .lang-switcher a {
+      text-decoration: none;
+      color: #007bff;
+      margin: 0 4px;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    form {
+      display: inline-block;
+    }
+
+    .block-form {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      max-width: 500px;
+      margin: 20px auto;
+
+    }
+
+    .block-form input[type="text"] {
+      width: 300px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .block-form button {
+      padding: 8px 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .block-form button:hover {
+      background: #0056b3;
+    }
+
+    .blocked-user {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin: 10px auto;
+      padding: 10px 20px;
+      width: 90%;
+      max-width: 500px;
+      border-bottom: 1px solid #eee;
+      justify-content: center;
+    }
+
+    .blocked-user .info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .blocked-user {
+      justify-content: center;
+    }
+
+    .blocked-user form {
+      margin-left: 20px;
+    }
+  
+    .blocked-user img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .unblock-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+
+    .unblock-btn:hover {
+      background: #c82333;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      background: #fff;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .footer a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .footer a.active {
+      color: #007bff;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <div class="header">
+    <a href="/usersettings" class="back-btn">&#8592;</a>
+    <div class="lang-switcher">
+      <a href="?lang=en">EN</a> |
+      <a href="?lang=ja">日本語</a> |
+      <a href="?lang=my">မြန်မာ</a>
+    </div>
+  </div>
+
+  <h2 th:text="#{blocked.title}">Blocked Users</h2>
+  <div style="text-align:center; margin-bottom: 20px;">
+    <form th:action="@{/block}" method="post" class="block-form">
+      <input type="text" name="blockUsername" 
+        th:placeholder="#{blocked.input.placeholder}" 
+        required />
+      <button type="submit" th:text="#{blocked.button}">Block</button>
+    </form>
+  </div>
+
+  <div th:if="${#lists.isEmpty(blockedUsers)}">
+    <p style="text-align:center;" th:text="#{blocked.none}">No users are currently blocked.</p>
+  </div>
+
+  <div th:each="user : ${blockedUsers}" class="blocked-user">
+    <div class="info">
+      <img th:src="@{${user.profilePic != null and user.profilePic != ''} 
+                      ? '/uploads/profile/' + ${user.profilePic} 
+                      : '/images/default-profile.png'}" 
+           alt="Profile" />
+      <span th:text="${user.username}">Username</span>
+    </div>
+    <form th:action="@{'/unblock/' + ${user.username}}" method="post">
+      <button class="unblock-btn" th:text="#{blocked.unblock}">Unblock</button>
+    </form>
+  </div>
+
+  <div class="footer">
+    <a href="/users" th:text="#{chat.title}">Chats</a>
+    <a href="/setting" class="active" th:text="#{footer.home}">Home</a>
+  </div>
+</body>
+</html>
+

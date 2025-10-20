@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Friend</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+      background: #fff;
+      position: relative;
+    }
+
+    .back-btn {
+      font-size: 22px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .back-btn:hover {
+      color: #007bff;
+    }
+
+    .lang-switcher {
+      position: absolute;
+      right: 1rem;
+      font-size: 14px;
+    }
+
+    .lang-switcher a {
+      text-decoration: none;
+      color: #007bff;
+      margin: 0 4px;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 2rem;
+    }
+    
+    form {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      max-width: 500px;
+      margin: 0 auto 2rem auto;
+    }
+
+    input[type="text"] {
+      width: 300px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 8px 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .message {
+      text-align: center;
+      color: green;
+      margin-bottom: 1rem;
+    }
+
+    .friend-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .friend-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .friend-item img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 12px;
+    }
+
+    .friend-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .add-btn {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .add-btn:hover {
+      background: #218838;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .footer {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      background: #fff;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .footer a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .footer a.active {
+      color: #007bff;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="/setting" class="back-btn">&#8592;</a>
+    <div class="lang-switcher">
+      <a href="?lang=en">EN</a> |
+      <a href="?lang=ja">日本語</a> |
+      <a href="?lang=my">မြန်မာ</a>
+    </div>
+  </div>
+
+  <h2 th:text="#{addfriend.title}">Add Friend</h2>
+
+  <div th:if="${message}" class="message" th:text="${message}"></div>
+
+  <form th:action="@{/addfriend}" method="post">
+    <input type="text" name="contact" th:placeholder="#{addfriend.placeholder}" required />
+    <button type="submit" th:text="#{addfriend.button}">Add</button>
+  </form>
+
+  <div class="footer">
+    <a href="/users" th:text="#{chat.title}">Chats</a>
+    <a href="/setting" class="active" th:text="#{footer.home}">Home</a>
+  </div>
+</body>
+</html>

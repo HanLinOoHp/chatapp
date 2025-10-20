@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>User Info</title>    
+  <!-- Add CSRF meta tags here -->
+  <meta name="_csrf" th:content="${_csrf.token}" />
+  <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+      position: relative;
+    }
+
+    .lang-switcher {
+      position: static;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 4px 8px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    .back-btn {
+      font-size: 22px;
+      text-decoration: none;
+      color: #333;
+    }
+    .lang-switcher a {
+      text-decoration: none;
+      color: #007bff;
+      margin: 0 4px;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    form {
+      display: inline-block;
+    }
+
+    .blocked-user {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px auto;
+      padding: 10px 20px;
+      width: 90%;
+      border-bottom: 1px solid #eee;
+    }
+
+    .blocked-user img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .blocked-user .info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .unblock-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+
+    .unblock-btn:hover {
+      background: #c82333;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      background: #fff;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .footer a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .footer a.active {
+      color: #007bff;
+    }
+
+    .profile {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #ccc;
+    margin-bottom: 8px;
+    }
+
+    .username {
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .menu {
+      margin-top: 20px;
+      background: #fff;
+      flex: 1;
+    }
+    .menu a {
+      display: block;
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      text-decoration: none;
+      color: #333;
+      font-size: 18px;
+    }
+
+    .menu form {
+      width: 100%;
+      margin: 0;
+    }
+
+    .menu form .menu-link {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      border: none;
+      background: none;
+      text-align: left;
+      font-size: 18px;
+      color: #333;
+      font-family: inherit;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+    }
+
+    .menu form .menu-link:hover {
+      background: #f5f5f5;
+    }
+
+    .menu form .menu-link.danger {
+      color: #d9534f;
+    }
+
+    .menu-link:hover {
+      background: #f5f5f5;
+    }
+
+    .menu-link.danger {
+      color: #d9534f;
+    }
+
+    .profile-pic {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover; 
+      margin-bottom: 8px;
+    }
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #ddd;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .avatar img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a th:href="@{'/chat/' + ${receiver}}" class="back-btn">&#8592;</a>
+       
+    <div class="profile">
+      <div class="avatar">
+        <img th:src="@{${user.profilePic != null and user.profilePic != ''} 
+              ? '/uploads/profile/' + ${user.profilePic} 
+              : '/images/default-profile.png'}"
+              alt="Profile Image"
+              class="profile-pic" />
+      </div>
+      <div class="username" th:text="${receiver}">Receiver</div>
+    </div>
+        
+    <div class="lang-switcher">
+      <a href="?lang=en">EN</a> |
+      <a href="?lang=ja">日本語</a> |
+      <a href="?lang=my">မြန်မာ</a>
+    </div>
+  </div>
+  <div class="menu">
+  <a th:href="@{'/userinfo/info/' + ${receiver}}" th:text="#{menu.info}">Info</a>
+  <a th:href="@{'/userinfo/nickname/' + ${receiver}}" th:text="#{menu.nickname}">Change Nickname</a>
+  <form th:action="@{/block}" method="post">
+    <input type="hidden" name="blockUsername" th:value="${receiver}" />
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <button type="submit" class="menu-link danger" th:text="#{menu.block}">Block</button>
+  </form>
+   <a href="javascript:void(0);"
+   class="menu-link danger"
+   th:data-username="${receiver}"
+   onclick="deleteChatUserinfo(this)"
+   th:text="#{menu.deleteChat}">Delete Chat</a>
+  </div>
+
+
+<script>
+    function deleteChatUserinfo(el) {
+        const username = el.dataset.username;
+        if (confirm("Delete chat with " + username + "?")) {
+            const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+            const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+            fetch(`/userinfo/delete/${username}`, {
+                method: 'DELETE',
+                headers: { [csrfHeader]: csrfToken }
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/users';
+                } else {
+                    alert("Failed to delete chat.");
+                }
+            })
+            .catch(err => {
+                alert("Error: " + err);
+            });
+        }
+    }
+</script>
+</body>
+</html>

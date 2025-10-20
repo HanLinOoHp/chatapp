@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title th:text="#{about.title}">About Us</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+      background: #fff;
+      position: relative;
+    }
+
+    .back-btn {
+      font-size: 22px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .back-btn:hover {
+      color: #007bff;
+    }
+    
+    .lang-switcher {
+      position: absolute;
+      right: 1rem;
+      font-size: 14px;
+    }
+
+    .lang-switcher a {
+      text-decoration: none;
+      color: #007bff;
+      margin: 0 4px;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
+    }
+
+
+    h2 {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 2rem;
+    }
+
+    .about-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      text-align: left;
+    }
+
+    .section {
+      margin-bottom: 2rem;
+    }
+
+    .section h3 {
+      color: #007bff;
+      margin-bottom: 0.5rem;
+    }
+
+    .team {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .member {
+      flex: 1 1 200px;
+      text-align: center;
+    }
+
+    .member img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 0.5rem;
+    }
+
+    .contact {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 0.95em;
+      padding-bottom: 70px;
+    }
+
+    .contact a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .contact a:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      background: #fff;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .footer a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .footer a.active {
+      color: #007bff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <a href="/setting" class="back-btn">&#8592;</a>
+    <div class="lang-switcher">
+      <a href="?lang=en">EN</a> |
+      <a href="?lang=ja">日本語</a> |
+      <a href="?lang=my">မြန်မာ</a>
+    </div>
+  </div>
+
+  <h2 th:text="#{about.title}">About Us</h2>
+
+  <div class="about-wrapper">
+    <div class="section">
+      <h3 th:text="#{about.intro}">Welcome to Chat4All...</h3>
+      <p th:text="#{about.mission}">Our mission is to provide...</p>
+    </div>
+
+    <div class="section">
+      <h3 th:text="#{about.team.title}">Our Team</h3>
+      <div class="team">
+        <div class="member">
+          <h4 th:text="#{about.team.member1.role}">Lead Developer</h4>
+          <p th:text="#{about.team.member1.name}">Poe Ei Phyu</p>
+        </div>
+        <div class="member">
+          <h4 th:text="#{about.team.member2.role}">UI/UX Designer</h4>
+          <p th:text="#{about.team.member2.name}">Poe Ei Phyu</p>
+        </div>
+        <div class="member">
+          <h4 th:text="#{about.team.member3.role}">Project Manager</h4>
+          <p th:text="#{about.team.member3.name}">Poe Ei Phyu</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section contact">
+      <h3 th:text="#{about.contact.title}">Contact Us</h3>
+      <p th:utext="#{about.contact.desc}">
+        Have questions or feedback? Reach out to us at <a href="mailto:support@chat4all.com">support@chat4all.com</a>.
+      </p>
+    </div>
+
+    <p style="text-align:center; font-size: 0.9em; color: #888;">
+      &copy; 2025 Chat4All. <span th:text="#{about.rights}">All rights reserved.</span>
+    </p>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <a href="/users" th:text="#{chat.title}">Chats</a>
+    <a href="/setting" class="active" th:text="#{footer.home}">Home</a>
+  </div>
+
+</body>
+</html>

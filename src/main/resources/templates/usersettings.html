@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="#{setting.title}">User Settings</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+      position: relative;
+    }
+
+    .back-btn {
+      font-size: 22px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .lang-switcher {
+      position: fixed;
+      top: 10px;
+      right: 20px;
+      font-size: 14px;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 4px 8px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    
+
+    .lang-switcher a {
+      text-decoration: none;
+      color: #007bff;
+      margin: 0 4px;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
+    }
+    .content {
+      text-align: center;
+      padding: 20px;
+      flex: 1;
+    }
+
+    .profile {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    .username {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .phone {
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .menu li {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+
+    .menu li a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .menu li:hover {
+      background: #f9f9f9;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      background: #fff;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .footer a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .footer a.active {
+      color: #007bff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <a href="/setting" class="back-btn">&#8592;</a>
+    <div class="lang-switcher">
+      <a href="?lang=en">EN</a> |
+      <a href="?lang=ja">日本語</a> |
+      <a href="?lang=my">မြန်မာ</a>
+    </div>
+  </div>
+
+  <div class="content">
+    <img th:src="@{${user.profilePic != null and user.profilePic != ''} 
+                ? '/uploads/profile/' + ${user.profilePic} 
+                : '/images/default-profile.png'}" 
+        alt="Profile Image" 
+        class="profile" />
+
+    <div class="username" th:text="${user.username}">Test</div>
+    <div class="phone" th:text="${user.phoneNo}">+81 123 456 789</div>
+
+    <ul class="menu">
+      <li><a href="/personalsetting" th:text="#{menu.personal}">Personal Info Setting</a></li>
+      <li><a href="/blocked" th:text="#{menu.blocked}">Blocked List</a></li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <a href="/users" th:text="#{chat.title}">Chats</a>
+    <a href="/setting" class="active" th:text="#{footer.home}">Home</a>
+  </div>
+
+</body>
+</html>
+
+
+
+

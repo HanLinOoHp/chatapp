@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Friend List</title>
+  <style>
+    body {
+      font-family: 'Noto Sans Myanmar', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+      background: #fff;
+      position: relative;
+    }
+
+    .back-btn {
+      font-size: 22px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .back-btn:hover {
+      color: #007bff;
+    }
+
+    .lang-switcher {
+      position: absolute;
+      right: 1rem;
+      font-size: 14px;
+    }
+
+    .lang-switcher a {
+      text-decoration: none;
+      color: #007bff;
+      margin: 0 4px;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 2rem;
+    }
+
+    .friend-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .friend-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      padding: 12px 16px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .friend-item:hover {
+      transform: translateY(-2px);
+    }
+    .friend-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .friend-info img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #007bff;
+    }
+    .friend-info span {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .friend-link {
+      display: flex;
+      text-decoration: none;
+      color: inherit;
+      width: 100%;
+    }
+
+    .friend-link:hover {
+      background: #f8f9fa;
+      border-radius: 12px;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      background: #fff;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .footer a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .footer a.active {
+      color: #007bff;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <a href="/setting" class="back-btn">&#8592;</a>
+    <div class="lang-switcher">
+      <a href="?lang=en">EN</a> |
+      <a href="?lang=ja">日本語</a> |
+      <a href="?lang=my">မြန်မာ</a>
+    </div>
+  </div>
+
+  <h2 th:text="#{friendlist.title}">Friend List</h2>
+  <p th:if="${#lists.isEmpty(users)}" th:text="#{friendlist.empty}">You have no friends yet.</p>
+
+  <ul class="friend-list">
+    <li class="friend-item" th:each="friend : ${users}">
+      <a th:href="@{/chat/{username}(username=${friend.username})}" class="friend-link">
+        <div class="friend-info">
+          <img th:src="${friend.profilePic != null and friend.profilePic != ''} ? 
+                        @{/uploads/profile/{file}(file=${friend.profilePic})} : 
+                        @{/images/default-profile.png}" 
+              alt="Profile" />
+          <span th:text="${friend.username}">Username</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+
+
+  <div class="footer">
+    <a href="/users" th:text="#{chat.title}">Chats</a>
+    <a href="/setting" class="active" th:text="#{footer.home}">Home</a>
+  </div>
+</body>
+</html>

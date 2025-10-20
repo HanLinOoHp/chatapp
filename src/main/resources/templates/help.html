@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title th:text="#{help.title}">Help & Support</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+      background: #fff;
+      position: relative;
+    }
+
+    .back-btn {
+      font-size: 22px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .back-btn:hover {
+      color: #007bff;
+    }
+
+    .lang-switcher {
+      position: absolute;
+      right: 1rem;
+      font-size: 14px;
+    }
+
+    .lang-switcher a {
+      text-decoration: none;
+      color: #007bff;
+      margin: 0 4px;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 2rem;
+    }
+
+    .faq-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      text-align: left;
+    }
+
+    .faq {
+      margin-bottom: 1.5rem;
+    }
+
+    .faq h3 {
+      color: #007bff;
+      margin-bottom: 0.5rem;
+    }
+
+    .contact {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 0.95em;
+      padding-bottom: 70px;
+    }
+
+    .contact a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .contact a:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      background: #fff;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .footer a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .footer a.active {
+      color: #007bff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <a href="/setting" class="back-btn">&#8592;</a>
+    <div class="lang-switcher">
+      <a href="?lang=en">EN</a> |
+      <a href="?lang=ja">日本語</a> |
+      <a href="?lang=my">မြန်မာ</a>
+    </div>
+  </div>
+
+  <h2 th:text="#{help.title}">Help & Support</h2>
+  <div class="faq-wrapper">
+    <div class="faq">
+      <h3 th:text="#{help.q1}">💬 How do I start a chat?</h3>
+      <p th:text="#{help.a1}">Go to the Chats page and select a user to start messaging them.</p>
+    </div>
+
+    <div class="faq">
+      <h3 th:text="#{help.q2}">🖼️ How do I change my profile picture?</h3>
+      <p th:text="#{help.a2}">Go to the Settings page and upload a new image.</p>
+    </div>
+
+    <div class="faq">
+      <h3 th:text="#{help.q3}">🔕 How do I mute a conversation?</h3>
+      <p th:text="#{help.a3}">Click the ⋮ menu next to a chat and select "Mute Notifications".</p>
+    </div>
+
+    <div class="faq">
+      <h3 th:text="#{help.q4}">❌ How can I delete a chat?</h3>
+      <p th:text="#{help.a4}">Open the menu next to a chat and choose "Delete Chat".</p>
+    </div>
+
+    <div class="faq">
+      <h3 th:text="#{help.q5}">🔒 Is my data secure?</h3>
+      <p th:text="#{help.a5}">Yes, your messages are encrypted and protected with secure authentication.</p>
+    </div>
+  </div>
+
+  <div class="contact">
+    <p th:utext="#{help.contact}">
+      Still need help? Contact our support team at 
+      <a href="mailto:support@chat4all.com">support@chat4all.com</a>.
+    </p>
+  </div>
+
+
+  <div class="footer">
+    <a href="/users" th:text="#{chat.title}">Chats</a>
+    <a href="/setting" class="active" th:text="#{footer.home}">Home</a>
+  </div>
+</body>
+</html>

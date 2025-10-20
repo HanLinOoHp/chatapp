@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+
+  <title>Chats</title>
+  <!-- Add CSRF meta tags here -->
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .header {
+      display: flex;
+      justify-content: center; 
+      position: relative;
+      align-items: center;
+      padding: 1rem;
+      font-size: 20px;
+      font-weight: bold;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .header-icons {
+      display: flex;
+      gap: 1rem;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .search {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #ddd;
+      flex-shrink: 0;
+    }
+
+    .search input {
+      width: 100%;
+      height: 40px;
+      padding: 0 15px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .chat-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      overflow-y: auto;
+      flex: 1;
+      padding-bottom: 60px;
+    }
+
+    .chat-item {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      border-bottom: 1px solid #f1f1f1;
+      position: relative;
+
+    }
+    .chat-item a:focus {
+      outline: 2px solid #007bff;
+      background-color: #e6f0ff;
+    }
+
+    .chat-item:hover {
+      background: #f9f9f9;
+    }
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #ddd;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    .chat-item .avatar img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .chat-info {
+      flex-grow: 1;
+      min-width: 0;
+    }
+    .msg-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .chat-info .name {
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .last-msg {
+      color: #666;
+      font-size: 14px;
+      flex: 1; 
+      white-space: nowrap;
+      overflow: hidden;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 500px; 
+      margin-right: 8px;
+    }
+    .chat-time {
+      font-size: 12px;
+      color: #888;
+      margin-left: 10px;
+      white-space: nowrap;
+      flex-shrink: 0;       
+    }
+    .options-btn {
+      margin-left: auto;
+      cursor: pointer;
+      font-size: 18px;
+      padding: 5px;
+    }
+
+    .options-menu {
+      display: none;
+      position: absolute;
+      right: 15px;
+      top: 60px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      z-index: 100;
+      min-width: 160px;
+    }
+
+    .options-menu ul {
+      list-style: none;
+      margin: 0;
+      padding: 5px 0;
+    }
+
+    .options-menu li {
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .options-menu li:hover {
+      background: #f2f2f2;
+    }
+
+    .danger {
+      color: red;
+      font-weight: bold;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      background: #fff;
+      height: 50px;
+    }
+    .footer a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+    .footer a.active {
+      color: #007bff;
+    }
+    .profile-pic {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 8px;
+    }
+
+    .lang-switcher {
+      position: fixed;
+      top: 10px;
+      right: 20px;
+      font-size: 14px;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 4px 8px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    .lang-switcher a {
+      text-decoration: none;
+      color: #007bff;
+      margin: 0 4px;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+ <div class="header">
+    <span th:text="#{chat.title}">Chats</span>
+
+    <div class="lang-switcher">
+        <a href="?lang=en">EN</a> |
+        <a href="?lang=ja">日本語</a> |
+        <a href="?lang=my">မြန်မာ</a>
+    </div>
+  </div>
+
+  <div class="search">
+    <input type="text" id="searchInput" th:placeholder="#{chat.search.placeholder}" />
+  </div>
+
+  <ul class="chat-list">
+    <li th:if="${#lists.isEmpty(users)}" 
+        style="text-align:center; color:#999; padding:20px;"
+        th:text="#{chat.no.friends}">
+        You have no friends yet.
+    </li>
+
+    <li class="chat-item" th:each="u : ${users}">
+      <a th:href="@{/chat/{username}(username=${u.username})}" 
+        style="display:flex;align-items:center;text-decoration:none;color:inherit;">
+        <div class="avatar">
+          <img th:src="@{${u.profilePic != null and u.profilePic != ''} 
+                ? '/uploads/profile/' + ${u.profilePic} 
+                : '/images/default-profile.png'}" 
+        alt="Profile Image" 
+        class="profile" />
+        </div>
+
+        <div class="chat-info">
+          <div class="name" th:text="${u.username}">User Name</div>
+          
+          <div class="msg-row">
+            <div class="last-msg" 
+                th:text="${u.lastMessage != null ? u.lastMessage : ''}">Last message...</div>
+            <div class="chat-time" 
+                th:text="${u.lastTime != null ? #temporals.format(u.lastTime, 'HH:mm') : ''}">Now</div>
+          </div>
+        </div>
+      </a>       
+      <div class="options-btn" sec:authorize="isAuthenticated()" onclick="toggleMenu(this)">⋮</div>
+      <div class="options-menu">
+        <ul>
+          <li class="danger" th:text="#{chat.delete}" onclick="deleteChat(this)">Delete Chat</li>
+          <li th:text="#{chat.mute}" onclick="muteChat(this)">Mute Notifications</li>
+          <li th:text="#{chat.markread}" onclick="markRead(this)">Mark as Read</li>
+        </ul>
+      </div>
+
+    </li>
+  </ul>
+  <div class="footer">
+    <a href="/users" class="active" th:text="#{chat.title}">Chats</a>
+    <a href="/setting" th:text="#{footer.home}">Home</a>
+  </div>
+
+  <script th:inline="javascript">
+    document.getElementById("searchInput").addEventListener("keyup", function() {
+        const filter = this.value.toLowerCase();
+        const items = document.querySelectorAll(".chat-item");
+        items.forEach(item => {
+            const name = item.querySelector(".name").textContent.toLowerCase();
+            if (name.includes(filter)) {
+                item.style.display = "";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    });
+
+     // Toggle menu
+    function toggleMenu(btn) {
+      const menu = btn.nextElementSibling;
+      document.querySelectorAll(".options-menu").forEach(m => {
+        if (m !== menu) m.style.display = "none";
+      });
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    // Close menus when clicking outside
+    document.addEventListener("click", function(e) {
+      if (!e.target.closest(".options-btn") && !e.target.closest(".options-menu")) {
+        document.querySelectorAll(".options-menu").forEach(m => m.style.display = "none");
+      }
+    });
+
+    function deleteChat(el) {
+      const chatItem = el.closest(".chat-item");
+      const username = chatItem.querySelector(".name").textContent.trim();
+
+      const confirmTemplate = /*[[#{chat.delete.confirm}]]*/ "Delete chat with {0}?";
+      const failMessage = /*[[#{chat.delete.fail}]]*/ "Failed to delete chat";
+      const confirmMessage = confirmTemplate.replace("{0}", username);
+
+    if (!confirm(confirmMessage)) return;
+      // Get CSRF token & header
+      const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+      const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+      fetch("/userinfo/delete/" + encodeURIComponent(username), {
+          method: "DELETE",
+          headers: {
+              [csrfHeader]: csrfToken
+          }
+      })
+      .then(res => {
+        if (res.ok) {
+          chatItem.remove();
+        } else {
+          alert(failMessage);
+        }
+      })
+      .catch(err => alert("Error: " + err));
+    }
+  </script>
+</body>
+</html>
