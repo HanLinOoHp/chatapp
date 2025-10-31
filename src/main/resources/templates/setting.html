@@ -181,11 +181,6 @@
       <li><a href="/help" th:text="#{menu.help}">Help</a></li>
       <li><a href="/aboutus" th:text="#{menu.aboutus}">About Us</a></li>
       <li style="padding-top: 20px; padding-bottom: 20px;" onclick="document.getElementById('logoutForm').submit();" th:text="#{menu.logout}">Logout</li>
-      <!-- <li style="padding-top: 20px; padding-bottom: 20px;" 
-          onclick="document.getElementById('logoutForm').submit();" 
-          th:text="#{menu.logout} ?: 'Logout'">
-          Logout
-      </li> -->
     </ul>
     <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;"></form>
   </div>

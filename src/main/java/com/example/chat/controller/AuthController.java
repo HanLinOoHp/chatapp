@@ -175,8 +175,60 @@ public class AuthController {
     }
 
     @GetMapping("/personalsetting")
-    public String personalsetting() {
+    public String personalsetting(Model model, Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        // Get the logged-in user
+        User user = userRepository.findByUsername(principal.getName())
+                .orElse(null);
+
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        // Add user to the model for Thymeleaf
+        model.addAttribute("user", user);
+
         return "personalsetting";
+    }
+
+    @PostMapping("/updateProfile")
+    public String updateProfile(@RequestParam String username,
+            @RequestParam String email,
+            @RequestParam String phoneNo,
+            @RequestParam String dob,
+            @RequestParam(value = "profilePic", required = false) MultipartFile profilePic,
+            Principal principal) throws IOException {
+
+        User currentUser = userRepository.findByUsername(principal.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        currentUser.setUsername(username);
+        currentUser.setEmail(email);
+        currentUser.setPhoneNo(phoneNo);
+        try {
+            currentUser.setDob(LocalDate.parse(dob));
+        } catch (Exception e) {
+            // handle invalid date format
+        }
+
+        if (profilePic != null && !profilePic.isEmpty()) {
+            String fileName = System.currentTimeMillis() + "_" + profilePic.getOriginalFilename();
+            String uploadDir = System.getProperty("user.home") + "/chatapp/uploads/profile/";
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+            Files.copy(profilePic.getInputStream(), uploadPath.resolve(fileName),
+                    StandardCopyOption.REPLACE_EXISTING);
+            currentUser.setProfilePic(fileName);
+        }
+
+        userRepository.save(currentUser);
+
+        return "redirect:/personalsetting";
     }
 
 }

@@ -239,7 +239,7 @@
   </div>
   <div class="menu">
   <a th:href="@{'/userinfo/info/' + ${receiver}}" th:text="#{menu.info}">Info</a>
-  <a th:href="@{'/userinfo/nickname/' + ${receiver}}" th:text="#{menu.nickname}">Change Nickname</a>
+  <!-- <a th:href="@{'/userinfo/nickname/' + ${receiver}}" th:text="#{menu.nickname}">Change Nickname</a> -->
   <form th:action="@{/block}" method="post">
     <input type="hidden" name="blockUsername" th:value="${receiver}" />
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />

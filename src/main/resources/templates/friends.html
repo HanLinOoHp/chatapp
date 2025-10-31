@@ -115,6 +115,13 @@
       border-radius: 12px;
     }
 
+    .empty-message {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #666;
+      margin-top: 30px;
+    }
+
     .footer {
       display: flex;
       justify-content: space-around;
@@ -152,7 +159,7 @@
   </div>
 
   <h2 th:text="#{friendlist.title}">Friend List</h2>
-  <p th:if="${#lists.isEmpty(users)}" th:text="#{friendlist.empty}">You have no friends yet.</p>
+  <p class="empty-message" th:if="${#lists.isEmpty(users)}" th:text="#{friendlist.empty}">You have no friends yet.</p>
 
   <ul class="friend-list">
     <li class="friend-item" th:each="friend : ${users}">

@@ -109,12 +109,20 @@ public class FriendService {
             return "This user is already your friend.";
         }
 
-        Friendship friendship = new Friendship();
-        friendship.setUser(currentUser);
-        friendship.setFriend(friend);
-        friendshipRepository.save(friendship);
+        // Save two-way friendship
+        Friendship friendship1 = new Friendship();
+        friendship1.setUser(currentUser);
+        friendship1.setFriend(friend);
+
+        Friendship friendship2 = new Friendship();
+        friendship2.setUser(friend);
+        friendship2.setFriend(currentUser);
+
+        friendshipRepository.save(friendship1);
+        friendshipRepository.save(friendship2);
 
         return "Friend added successfully.";
+
     }
 
 }

@@ -2,150 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Home / Settings</title>
+  <title th:text="#{personal.title}">Personal Settings</title>
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Noto Sans Myanmar', Arial, sans-serif;
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      align-items: center;
       background: #f9f9f9;
+      min-height: 100vh;
     }
 
     /* .header {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      padding: 15px;
-      background: #fff;
-      border-bottom: 1px solid #ddd;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header h2 {
-      margin: 0;
-      font-size: 18px;
-    } */
-
-    .edit-btn {
-      background: none;
-      border: none;
-      color: #007bff;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    .content {
-      flex: 1;
-      overflow-y: auto;
       padding: 1rem;
-      text-align: center;
-    }
-
-    .profile {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin: 20px auto 10px auto;
-      border: 3px solid #ccc;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .username {
-      font-size: 18px;
-      font-weight: bold;
-      margin: 5px 0;
-    }
-
-    .phone {
-      font-size: 15px;
-      color: #555;
-      margin-bottom: 20px;
-    }
-
-    .menu {
-      list-style: none;
-      padding: 0;
-      margin: 0 auto;
-      max-width: 300px;
-      text-align: left;
-    }
-
-    .menu li {
-      padding: 15px;
-      border-bottom: 1px solid #ddd;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .menu li:hover {
-      background: #f1f1f1;
-    }
-
-    .footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 10px 0;
-      border-top: 1px solid #ddd;
-      background: #fff;
-      height: 50px;
-    }
-    .footer a {
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-    }
-    .footer a.active {
-      color: #007bff;
-    }
-
-    .logout-btn {
       width: 100%;
-      background: #dc3545;
-      color: white;
-      border: none;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 20px;
-      transition: background 0.3s;
-    }
-
-    .logout-btn:hover {
-      background: #c82333;
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      position: relative;
     }
 
     .back-btn {
-      position: absolute;
-      left: 1rem;
       font-size: 22px;
-      color: #333;
       text-decoration: none;
+      color: #333;
+    } */
+     
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+      background: #fff;
+      position: relative;
     }
+
+    .back-btn {
+      font-size: 22px;
+      text-decoration: none;
+      color: #333;
+    }
+
     .back-btn:hover {
       color: #007bff;
     }
 
     .lang-switcher {
-      position: fixed;
-      top: 10px;
-      right: 20px;
+      position: absolute;
+      right: 1rem;
       font-size: 14px;
-      z-index: 1000;
-      background: rgba(255, 255, 255, 0.8);
-      padding: 4px 8px;
-      border-radius: 8px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
     }
 
     .lang-switcher a {
@@ -157,17 +67,171 @@
     .lang-switcher a:hover {
       text-decoration: underline;
     }
+
+    .container {
+      margin-top: 20px;
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .profile-pic {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .profile-pic img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #ccc;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      background: #fff;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .footer a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .footer a.active {
+      color: #007bff;
+    }
+
   </style>
 </head>
-
 <body>
   <div class="header">
-    <a href="/usersettings" class="back-btn">&#8592;</a>
+    <a href="/setting" class="back-btn">&#8592;</a>
+    <div class="lang-switcher">
+      <a href="?lang=en">EN</a> |
+      <a href="?lang=ja">日本語</a> |
+      <a href="?lang=my">မြန်မာ</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2 th:text="#{personal.edit}">Personal Info</h2>
+
+    <form th:action="@{/updateProfile}" method="post" enctype="multipart/form-data">
+
+      <!-- <div class="profile-pic"> -->
+        <img th:src="@{${user.profilePic != null and user.profilePic != ''} 
+                ? '/uploads/profile/' + ${user.profilePic} 
+                : '/images/default-profile.png'}" 
+        alt="Profile Image" 
+        class="profile" />
+      <!-- </div> -->
+
+      <div class="form-group">
+        <label for="profilePic" th:text="#{personal.changePhoto}">Change Photo</label>
+        <input type="file" id="profilePic" name="profilePic">
+      </div>
+
+      <div class="form-group">
+        <label for="username" th:text="#{personal.name}">Name</label>
+        <input type="text" id="username" name="username" th:value="${user.username}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phoneNo" th:text="#{personal.phone}">Phone Number</label>
+        <input type="text" id="phoneNo" name="phoneNo" th:value="${user.phoneNo}">
+      </div>
+
+      <div class="form-group">
+        <label for="email" th:text="#{personal.email}">Email</label>
+        <input type="email" id="email" name="email" th:value="${user.email}">
+      </div>
+
+      <div class="form-group">
+        <label for="dob" th:text="#{personal.dob}">Date of Birth</label>
+        <input type="date" id="dob" name="dob" th:value="${user.dob}">
+      </div>
+
+      <button type="submit" th:text="#{personal.save}">Save Changes</button>
+    </form>
   </div>
 
   <div class="footer">
-    <a href="/users">Chats</a>
-    <a href="/setting" class="active">Home</a>
+    <a href="/users" th:text="#{chat.title}">Chats</a>
+    <a href="/setting" class="active" th:text="#{footer.home}">Home</a>
   </div>
+  <script>
+    const fileInput = document.getElementById('profilePic');
+    const imgPreview = document.querySelector('.profile-pic img');
+
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imgPreview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
 </body>
 </html>

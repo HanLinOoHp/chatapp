@@ -5,9 +5,17 @@ import com.example.chat.dto.UserDTO;
 import com.example.chat.model.User;
 import com.example.chat.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
-import com.example.chat.service.FriendService;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.chat.service.FriendService;
+import com.example.chat.service.UserService;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
